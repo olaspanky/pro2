@@ -1,7 +1,6 @@
 // app/api/advisor/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import clientPromise from '@/app/lib/mongodb';
-
 const MAX_RETRIES = 3;
 const COLLECTION_NAME = 'advisor_leads';
 
