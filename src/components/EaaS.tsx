@@ -77,7 +77,7 @@ export default function EaaS({ onAdvisorOpen }: { onAdvisorOpen: () => void }) {
             </div>
             <div style={{ marginTop: 24, textAlign: 'center' }}>
               <button onClick={onAdvisorOpen} className="btn-primary">
-                Enquire About EaaS →
+                Talk to an Advisor →
               </button>
             </div>
           </div>

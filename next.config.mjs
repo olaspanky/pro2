@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // output: 'export',  <-- remove this
   trailingSlash: true,
-  images: { unoptimized: true },
+  images: { unoptimized: true },  // you can also remove unoptimized if you want Vercel image optimization
 };
 
 export default nextConfig;

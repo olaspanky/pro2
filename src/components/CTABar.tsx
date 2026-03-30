@@ -6,7 +6,7 @@ export default function CTABar({ onAdvisorOpen }: { onAdvisorOpen: () => void })
         Talk to us today — free energy consultation, no obligation.
       </div>
       <button onClick={onAdvisorOpen} className="btn-navy cursor-pointer border-none">
-        Book Free Consultation →
+        Talk to an Advisor →
       </button>
     </div>
   );
