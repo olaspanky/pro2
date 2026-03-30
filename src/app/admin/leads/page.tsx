@@ -94,7 +94,10 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
 
 // ─── Main Dashboard ──────────────────────────────────────────────────────────
 export default function LeadsDashboard() {
-  const [authed, setAuthed] = useState(false);
+  const [authed, setAuthed] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return sessionStorage.getItem('leads_authed') === 'true';
+  });
   const [leads, setLeads] = useState<Lead[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
   const [pagination, setPagination] = useState<Pagination | null>(null);
@@ -114,9 +117,7 @@ export default function LeadsDashboard() {
         status: statusFilter,
         ...(search ? { search } : {}),
       });
-      const res = await fetch(`/api/advisor?${params}`, {
-        headers: { Authorization: `Bearer ${PASSWORD}` },
-      });
+      const res = await fetch(`/api/advisor?${params}`);
       const data = await res.json();
       setLeads(data.leads || []);
       setStats(data.stats || null);
@@ -142,7 +143,7 @@ export default function LeadsDashboard() {
     if (selected?._id === id) setSelected(prev => prev ? { ...prev, status: status as Lead['status'] } : null);
   };
 
-  if (!authed) return <LoginScreen onLogin={() => setAuthed(true)} />;
+  if (!authed) return <LoginScreen onLogin={() => { sessionStorage.setItem('leads_authed', 'true'); setAuthed(true); }} />;
 
   return (
     <div style={styles.shell}>
@@ -192,7 +193,7 @@ export default function LeadsDashboard() {
           ))}
         </nav>
 
-        <button onClick={() => setAuthed(false)} style={styles.logoutBtn}>
+        <button onClick={() => { sessionStorage.removeItem('leads_authed'); setAuthed(false); }} style={styles.logoutBtn}>
           Sign out
         </button>
       </aside>
