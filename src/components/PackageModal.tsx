@@ -20,42 +20,72 @@ export default function PackageModal({ tier, pkgName, onClose }: { tier:string; 
   const [errors,     setErrors]     = useState<Record<string,boolean>>({});
   const confirm = TIER_MESSAGES[tier] || TIER_MESSAGES['silver'];
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const f = e.currentTarget;
-    const req = ['pf-name','pf-email','pf-phone','pf-location'];
-    const errs: Record<string,boolean> = {};
-    req.forEach(id => { if (!(f.elements.namedItem(id) as HTMLInputElement)?.value?.trim()) errs[id] = true; });
-    if (Object.keys(errs).length) { setErrors(errs); return; }
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const f = e.currentTarget;
+  const req = ['pf-name', 'pf-email', 'pf-phone', 'pf-location'];
+  const errs: Record<string, boolean> = {};
+  req.forEach(id => { if (!(f.elements.namedItem(id) as HTMLInputElement)?.value?.trim()) errs[id] = true; });
+  if (Object.keys(errs).length) { setErrors(errs); return; }
 
-    setSubmitting(true);
-    const payload = {
-      name:     (f.elements.namedItem('pf-name')     as HTMLInputElement).value.trim(),
-      email:    (f.elements.namedItem('pf-email')    as HTMLInputElement).value.trim(),
-      phone:    (f.elements.namedItem('pf-phone')    as HTMLInputElement).value.trim(),
-      location: (f.elements.namedItem('pf-location') as HTMLInputElement).value.trim(),
-      system:   (f.elements.namedItem('pf-system')   as HTMLSelectElement).value,
-      message:  (f.elements.namedItem('pf-message')  as HTMLTextAreaElement).value.trim(),
-      package:  pkgName,
-      source:   'ProSolar C&I Landing Page — Package Card',
-      timestamp: new Date().toISOString(),
-    };
+  setSubmitting(true);
 
-    try {
-      const leads = JSON.parse(localStorage.getItem('prosolar_pkg_leads') || '[]');
-      leads.push(payload);
-      localStorage.setItem('prosolar_pkg_leads', JSON.stringify(leads));
-    } catch {}
-
-    setTimeout(() => {
-      setDone(true);
-      setSubmitting(false);
-      // Google Ads conversion
-      try { if (typeof gtag !== 'undefined') { gtag('event','conversion',{ send_to:'AW-16892943941/PACKAGE_FORM_LABEL' }); gtag('event','generate_lead',{ event_category:'Form', event_label:`Package Thank You: ${tier}` }); } } catch {}
-      // Facebook Lead
-      try { if (typeof fbq !== 'undefined') { fbq('track','Lead',{ content_name:`Package Thank You: ${tier}`, content_category:'Solar Lead' }); } } catch {}
-    }, 600);
+  const payload = {
+    name:      (f.elements.namedItem('pf-name')     as HTMLInputElement).value.trim(),
+    email:     (f.elements.namedItem('pf-email')    as HTMLInputElement).value.trim(),
+    phone:     (f.elements.namedItem('pf-phone')    as HTMLInputElement).value.trim(),
+    location:  (f.elements.namedItem('pf-location') as HTMLInputElement).value.trim(),
+    system:    (f.elements.namedItem('pf-system')   as HTMLSelectElement).value,
+    bizType:   (f.elements.namedItem('pf-biz')      as HTMLSelectElement).value,
+    message:   (f.elements.namedItem('pf-message')  as HTMLTextAreaElement).value.trim(),
+    package:   pkgName,
+    source:    'ProSolar C&I Landing Page — Package Card',
+    timestamp: new Date().toISOString(),
   };
+
+  // localStorage fallback (keeps offline safety net)
+  try {
+    const leads = JSON.parse(localStorage.getItem('prosolar_pkg_leads') || '[]');
+    leads.push(payload);
+    localStorage.setItem('prosolar_pkg_leads', JSON.stringify(leads));
+  } catch {}
+
+  try {
+    const res = await fetch('/api/package-enquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+      console.error('Package enquiry submission error:', data.error || data.message);
+      // Still proceed to confirmation — user experience takes priority
+    }
+  } catch (err) {
+    console.error('Package enquiry fetch failed:', err);
+    // Silent fail — localStorage already captured the lead
+  }
+
+  setDone(true);
+  setSubmitting(false);
+
+  // Google Ads conversion
+  try {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'conversion', { send_to: 'AW-16892943941/PACKAGE_FORM_LABEL' });
+      gtag('event', 'generate_lead', { event_category: 'Form', event_label: `Package Thank You: ${tier}` });
+    }
+  } catch {}
+
+  // Facebook Lead
+  try {
+    if (typeof fbq !== 'undefined') {
+      fbq('track', 'Lead', { content_name: `Package Thank You: ${tier}`, content_category: 'Solar Lead' });
+    }
+  } catch {}
+};
 
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
