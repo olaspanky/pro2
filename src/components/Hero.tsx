@@ -40,7 +40,7 @@ export default function Hero({ onAdvisorOpen }: { onAdvisorOpen: () => void }) {
 
         <div className="flex flex-wrap gap-4 justify-center mb-24">
           <button onClick={onAdvisorOpen} className="btn-primary">
-            ☀ Talk to a Solar Advisor
+            ☀ Talk to an Advisor
           </button>
           <a href="#packages" className="btn-ghost">View Packages →</a>
         </div>
