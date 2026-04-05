@@ -18,8 +18,8 @@ export const metadata: Metadata = {
     locale: 'en_NG',
     type: 'website',
   },
-   verification: {
-    google: 'google5ae4f9bacd3bf992',  // ← Google Search Console
+    verification: {
+    google: 'xELf2VTp4ptggc_eyFPb4R1MitdmFYuevoGEITgnGVI',  // ← Google Search Console
   },
 };
 
