@@ -51,9 +51,7 @@ export default function ThankYouPage({
            <a href="mailto:info@prosolarng.com" className="ty-contact-link">
             <span className="ty-contact-icon">✉</span> info@prosolarng.com
           </a>
-          <a href="tel:+2348029068303" className="ty-contact-link">
-            <span className="ty-contact-icon">📞</span> 0802 906 8303
-          </a>
+        
         </div>
 
         <Link href="/" className="ty-btn">← Back to Homepage</Link>
