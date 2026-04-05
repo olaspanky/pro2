@@ -18,6 +18,9 @@ export const metadata: Metadata = {
     locale: 'en_NG',
     type: 'website',
   },
+   verification: {
+    google: 'google5ae4f9bacd3bf992',  // ← Google Search Console
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
