@@ -43,11 +43,12 @@ export default function Home() {
       <Problem />
       <CTABar onAdvisorOpen={() => setAdvisorOpen(true)} />
       <VSL />
+            <CTABarGold onAdvisorOpen={() => setAdvisorOpen(true)} />
+
       <Solution />
       <Packages onPkgOpen={openPkg} />
       <EaaS onAdvisorOpen={() => setAdvisorOpen(true)} />
       <Roadmap />
-      <CTABarGold onAdvisorOpen={() => setAdvisorOpen(true)} />
       <Testimonials />
       <About />
       <FAQ onAdvisorOpen={() => setAdvisorOpen(true)} />
