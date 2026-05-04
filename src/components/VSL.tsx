@@ -47,7 +47,7 @@ export default function VSL() {
 
         {/* Sub-label */}
         <div className="text-center mt-6">
-          <div className="text-[0.65rem] tracking-[3px] uppercase text-[rgba(255,255,255,0.4)] mb-1">Watch the EaaS Explainer.</div>
+          <div className="text-[0.65rem] tracking-[3px] uppercase text-[rgba(255,255,255,0.4)] mb-1">Watch the EaaS Explainer</div>
           <div className="font-bebas text-white text-2xl tracking-wider">ProSolar Energy — Founder</div>
         </div>
       </div>
