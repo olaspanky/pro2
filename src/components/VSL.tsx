@@ -208,33 +208,44 @@ export default function VSL() {
 
         /* ── play button ── */
         .vsl-play-btn {
-          position: relative;
-          z-index: 3;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 10;
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 76px; height: 76px;
+          width: 110px; height: 110px;
           border-radius: 50%;
           background: #f5b800;
-          border: none;
+          border: 5px solid rgba(255,255,255,0.2);
           cursor: pointer;
-          transition: transform 0.25s cubic-bezier(.22,.68,0,1.6), box-shadow 0.25s ease;
-          box-shadow: 0 0 0 0 rgba(245,184,0,0.5), 0 8px 32px rgba(0,0,0,0.4);
-          animation: ring-pulse 2.5s ease-in-out infinite;
+          transition: transform 0.3s cubic-bezier(.22,.68,0,1.6), box-shadow 0.3s ease, background 0.2s ease;
+          box-shadow:
+            0 0 0 0 rgba(245,184,0,0.6),
+            0 0 60px rgba(245,184,0,0.4),
+            0 16px 48px rgba(0,0,0,0.6);
+          animation: ring-pulse 2.2s ease-in-out infinite;
         }
         @keyframes ring-pulse {
-          0%,100% { box-shadow: 0 0 0 0 rgba(245,184,0,0.45), 0 8px 32px rgba(0,0,0,0.4); }
-          50%      { box-shadow: 0 0 0 18px rgba(245,184,0,0), 0 8px 32px rgba(0,0,0,0.4); }
+          0%,100% {
+            box-shadow: 0 0 0 0 rgba(245,184,0,0.6), 0 0 60px rgba(245,184,0,0.4), 0 16px 48px rgba(0,0,0,0.6);
+          }
+          50% {
+            box-shadow: 0 0 0 30px rgba(245,184,0,0), 0 0 90px rgba(245,184,0,0.25), 0 16px 48px rgba(0,0,0,0.6);
+          }
         }
         .vsl-thumb:hover .vsl-play-btn {
-          transform: scale(1.1);
-          box-shadow: 0 0 0 0 rgba(245,184,0,0.4), 0 12px 40px rgba(0,0,0,0.5);
+          transform: translate(-50%, -50%) scale(1.12);
+          background: #ffc914;
+          box-shadow: 0 0 0 0 rgba(245,184,0,0.4), 0 0 110px rgba(245,184,0,0.55), 0 20px 60px rgba(0,0,0,0.7);
           animation: none;
         }
         .vsl-play-btn svg {
-          width: 28px; height: 28px;
+          width: 44px; height: 44px;
           fill: #0b1524;
-          margin-left: 4px; /* optical center for triangle */
+          margin-left: 6px;
         }
 
         /* duration badge */
@@ -305,8 +316,8 @@ export default function VSL() {
         /* ── responsive ── */
         @media (max-width: 600px) {
           .vsl-section { padding: 4rem 1rem; }
-          .vsl-play-btn { width: 60px; height: 60px; }
-          .vsl-play-btn svg { width: 22px; height: 22px; }
+          .vsl-play-btn { width: 84px; height: 84px; }
+          .vsl-play-btn svg { width: 34px; height: 34px; }
           .vsl-footer-name { font-size: 1.15rem; }
         }
       `}</style>
