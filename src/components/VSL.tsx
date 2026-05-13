@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 // Mobile: https://youtu.be/W7AGeT4KzBM → ID: W7AGeT4KzBM
 // Web:    https://youtu.be/xf4rSK28WM8 → ID: xf4rSK28WM8
 const MOBILE_VIDEO_ID = 'xf4rSK28WM8';
-const DESKTOP_VIDEO_ID = 'xf4rSK28WM8';
+const DESKTOP_VIDEO_ID = 'W7AGeT4KzBM';
 
 export default function VSL() {
   const [playing, setPlaying] = useState(false);
